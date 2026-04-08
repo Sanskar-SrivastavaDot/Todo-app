@@ -2,6 +2,7 @@ let taskInput = document.getElementById("taskInput");
 let taskList = document.getElementById("taskList");
 
 let tasks = [];
+let currentFilter = "all"; 
 
 window.onload = function () {
 
@@ -36,20 +37,23 @@ function addTask() {
     });
 
     taskInput.value = "";
+
     saveTasks();
-    renderTasks();
+
+    renderTasks(); 
+
 }
 
-function renderTasks(filter = "all") {
+function renderTasks() {
 
     taskList.innerHTML = "";
 
     let filtered = tasks.filter(task => {
 
-        if (filter === "completed")
+        if (currentFilter === "completed")
             return task.completed;
 
-        if (filter === "pending")
+        if (currentFilter === "pending")
             return !task.completed;
 
         return true;
@@ -100,11 +104,9 @@ function renderTasks(filter = "all") {
         };
 
         actions.appendChild(editBtn);
-
         actions.appendChild(deleteBtn);
 
         li.appendChild(span);
-
         li.appendChild(actions);
 
         taskList.appendChild(li);
@@ -145,7 +147,7 @@ function editTask(id) {
 
     let newText = prompt("Edit task:");
 
-    if (newText === null) return;
+    if (newText === null || newText.trim() === "") return;
 
     tasks = tasks.map(task => {
 
@@ -165,7 +167,9 @@ function editTask(id) {
 
 function filterTasks(type) {
 
-    renderTasks(type);
+    currentFilter = type; // ⭐ FIX
+
+    renderTasks();
 
 }
 
@@ -190,10 +194,12 @@ function loadTasks() {
         tasks = JSON.parse(stored);
 
     }
+
     renderTasks();
+
 }
 
-
+/* 🌙 Dark Mode */
 
 function toggleDarkMode() {
 
