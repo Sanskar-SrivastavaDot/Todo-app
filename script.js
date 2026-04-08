@@ -67,15 +67,27 @@ function renderTasks() {
         if (task.completed)
             li.classList.add("completed");
 
-        let span = document.createElement("span");
+        // ⭐ Checkbox (NEW)
 
-        span.textContent = task.text;
+        let checkbox = document.createElement("input");
 
-        span.onclick = () => {
+        checkbox.type = "checkbox";
+
+        checkbox.checked = task.completed;
+
+        checkbox.onchange = () => {
 
             toggleComplete(task.id);
 
         };
+
+        // Task text
+
+        let span = document.createElement("span");
+
+        span.textContent = task.text;
+
+        // Buttons container
 
         let actions = document.createElement("div");
 
@@ -106,6 +118,7 @@ function renderTasks() {
         actions.appendChild(editBtn);
         actions.appendChild(deleteBtn);
 
+        li.appendChild(checkbox);
         li.appendChild(span);
         li.appendChild(actions);
 
